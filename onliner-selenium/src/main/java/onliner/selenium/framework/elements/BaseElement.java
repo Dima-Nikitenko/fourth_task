@@ -130,7 +130,12 @@ public abstract class BaseElement {
     public void moveToElement() {
         waitForElementToBePresent();
         scrollToElement();
-        action.moveToElement(element).build().perform();
+        try {
+            action.moveToElement(element).build().perform();
+        } catch (ElementNotInteractableException exc) {
+            logger.fatal(String.format(getLogProperty("locale.notinteractable"), elementName, getElementType().toLowerCase()), exc);
+        }
+
     }
 
     public void click() {
